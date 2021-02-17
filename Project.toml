@@ -10,3 +10,6 @@ ImageProjectiveGeometry = "b9d14576-938f-5430-9d4c-b7d7de1409d6"
 Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+FileIO = "1.4"
