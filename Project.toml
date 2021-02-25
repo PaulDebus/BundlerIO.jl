@@ -1,7 +1,7 @@
 name = "BundlerIO"
 uuid = "654bb1e1-1cb7-4447-b770-09a16346af94"
 authors = ["Paul Debus <debuspaul@gmail.com>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 ColorTypes = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
@@ -12,8 +12,8 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Meshes = "0.7"
 ColorTypes = "0.10"
 FileIO = "1.4"
 ImageProjectiveGeometry = "0.3"
+Meshes = "0.7"
 julia = "1"

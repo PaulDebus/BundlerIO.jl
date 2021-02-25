@@ -1,12 +1,12 @@
 module BundlerIO
 
-
-
 using FileIO
 using ImageProjectiveGeometry: Camera
 using Meshes
 using ColorTypes
 using Printf
+
+export Bundle
 
 struct Bundle{T<:AbstractFloat}
     cameras::Array{Camera}
@@ -26,7 +26,6 @@ end
 function load(ss::Stream{format"OUT"}; colors=true, keypoints=true, F=Float64)
     readparse(file, T=F) = parse.(T, split(readline(file)))
     s = stream(ss)
-    read(s,1) # because else it will read the last char of the comment line
     n_cams, n_points = readparse(s, Int)
 
     cams = Array{Camera, 1}(undef, n_cams)
@@ -46,7 +45,7 @@ function load(ss::Stream{format"OUT"}; colors=true, keypoints=true, F=Float64)
         R = [transpose(readparse(s)) for r in 1:3]
         R = vcat(R...)
         t = -transpose(R) * readparse(s)
-        R[3,:] *= -1 # somehow there are different coordinate systems
+        R[3,:] *= -1 # different coordinate systems 
         c = Camera(fx=f, fy=f, k1=k1, k2=k2, P=t, Rc_w=R)
         cams[cam_index] =  c
     end
@@ -80,8 +79,7 @@ function save(f::File{format"OUT"}, bundle::Bundle)
     j(x) = join(x, " ")
     open(f, "w") do s
         write(s, magic(format"OUT"))
-        # write(s, "# Bundle file v0.3\n")
-        write(s, "\n$(size(bundle.cameras, 1)) $(size(bundle.points, 1))\n")
+        write(s, "$(size(bundle.cameras, 1)) $(size(bundle.points, 1))\n")
         for cam in bundle.cameras
             write(s, "$(cam.fx) $(cam.k1) $(cam.k2)\n")
             R = cam.Rc_w
