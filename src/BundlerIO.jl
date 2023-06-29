@@ -52,7 +52,7 @@ function load(ss::Stream{format"OUT"}; colors=true, keypoints=true, F=Float64)
     @assert length(cams) == n_cams
 
     for point_index in 1:n_points
-        points[point_index] = Point(readparse(s))
+        points[point_index] = Point(readparse(s)...)
 
         c = RGB(readparse(s, Int)./255...)
         if colors
