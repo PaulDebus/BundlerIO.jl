@@ -1,12 +1,13 @@
 using FileIO
 using Test
 using BundlerIO
+using Download
 
 @testset "BundlerIO" begin
     # download an example file
     url = "https://raw.githubusercontent.com/snavely/bundler_sfm/master/examples/kermit/results.example/bundle.out"
     filepath = tempdir()*"/bundle.out"
-    download(url, filepath)
+		Download.download(url, filepath)
 
     bundle = load(filepath)
     @test length(bundle.cameras) == 11
