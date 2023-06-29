@@ -14,14 +14,22 @@ jobs:
         julia-version: ['1']
         julia-arch: [x64]
         os: [ubuntu-latest]
+        python-version: ['3.9']
 
-    env:
-      PYTHON: ""
     steps:
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: ${{ matrix.architecture }}
+      - run: python -m pip install --user numpy
+      - run: python -m pip install virtualenv
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.julia-version }}
           arch: ${{ matrix.julia-arch }}
       - uses: julia-actions/julia-buildpkg@v1
+        env:
+          PYTHON: python
       - uses: julia-actions/julia-runtest@v1
