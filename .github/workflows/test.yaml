@@ -5,13 +5,15 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        julia-version: ['1']
+        julia-version: ['1', '1.6']
         architecture: [x64]
         os: [ubuntu-latest]
         python-version: ['3.9']
