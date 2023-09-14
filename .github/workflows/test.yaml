@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Setup python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ matrix.python-version }}
           architecture: ${{ matrix.architecture }}
       - run: python -m pip install --user matplotlib
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.julia-version }}
