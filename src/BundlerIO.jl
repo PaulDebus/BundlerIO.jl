@@ -2,7 +2,6 @@ module BundlerIO
 
 using FileIO
 using ImageProjectiveGeometry: Camera
-using Meshes
 using ColorTypes
 using Printf
 
@@ -10,7 +9,7 @@ export Bundle
 
 struct Bundle{T<:AbstractFloat}
     cameras::Array{Camera}
-    points::Array{Point{3, T}}
+    points::Array{T, 2}
     views::Dict{Tuple{Int64,Int64},Array{T,1}}
     colors::Union{Nothing, Array{Color,1}}
     keypoints::Union{Nothing, Dict{Tuple{Int, Int}, Int}}
@@ -29,7 +28,7 @@ function load(ss::Stream{format"OUT"}; colors=true, keypoints=true, F=Float64)
     n_cams, n_points = readparse(s, Int)
 
     cams = Array{Camera, 1}(undef, n_cams)
-    points = Array{Point{3, F}, 1}(undef, n_points)
+    points = zeros(F, 3, n_points) 
     views = Dict{Tuple{Int, Int},Array{F,1}}()
     color_array = nothing
     keypoints_array = nothing
@@ -52,7 +51,7 @@ function load(ss::Stream{format"OUT"}; colors=true, keypoints=true, F=Float64)
     @assert length(cams) == n_cams
 
     for point_index in 1:n_points
-        points[point_index] = Point(readparse(s)...)
+        points[:, point_index] = readparse(s)
 
         c = RGB(readparse(s, Int)./255...)
         if colors
@@ -91,9 +90,9 @@ function save(f::File{format"OUT"}, bundle::Bundle)
             write(s, j(t) * "\n")
         end
 
-        for point_index in 1:length(bundle.points)
+        for point_index in 1:size(bundle.points,2)
             p = bundle.points[point_index]
-            write(s, j(p.coords)*"\n")
+            write(s, j(p)*"\n")
             if !isnothing(bundle.colors)
                 c = bundle.colors[point_index]
                 r = Int(round(red(c)*255))
