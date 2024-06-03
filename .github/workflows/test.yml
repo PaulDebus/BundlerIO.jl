@@ -24,5 +24,7 @@ jobs:
           version: ${{ matrix.julia-version }}
           arch: ${{ matrix.architecture }}
       - uses: actions/cache@v2
+        with:
+          key: ${{ runner.julia-version }}-test-${{ hashFiles('**/Project.toml') }}
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
