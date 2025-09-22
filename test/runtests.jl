@@ -13,6 +13,7 @@ using ImageProjectiveGeometry
     bundle = load(filepath)
     @test length(bundle.cameras) == 11
     @test size(bundle.points, 2) == 634
+    @test size(bundle.points, 1) == 3  # test fix of wrong dimensions declaration in struct
     @test length(bundle.views) == 2039
     @test bundle.views[(4,452)] == [-40.93, -5.87]
     # test the projections. the errors are surprisingly large...
