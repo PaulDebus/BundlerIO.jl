@@ -1,8 +1,9 @@
 name: Run tests
 
-on:  
-  - push
-  - pull_request
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 # needed to allow julia-actions/cache to delete old caches that it has created
 permissions:
@@ -13,8 +14,9 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        julia-version: ['1', '1.9']
+        julia-version: ['1.10', '1']
         architecture: [x64]
         os: [ubuntu-latest]
     steps:
